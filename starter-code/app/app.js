@@ -1,16 +1,11 @@
 // Setting up a variable of books globally = to the ul with an id('#books')
-var $books = $('#books');
-function execute() {
-$('body').append('#books');
-}
-
-$('form').on('submit'), function(event){
-   event.preventDefault();
-   execute();
-}
+getBooks();
 
 // Grabbing the info from "https://den-super-crud.herokuapp.com/books"
-$.get("https://den-super-crud.herokuapp.com/books").done(function(data) {
+
+function getBooks() {
+
+$.ajax("https://den-super-crud.herokuapp.com/books").done(function(data) {
    
    // Checking the data through console.log
    console.log(data);
@@ -25,14 +20,42 @@ $.get("https://den-super-crud.herokuapp.com/books").done(function(data) {
    for(var i = 0; i < myBooks.length; i++){
    	
    	// appending each individual <li> with the proper information
-       $books.append('<li>' + myBooks[i].title + '</li>');
-       $books.append('<li>' + myBooks[i].author + '</li>');
-       $books.append('<li>' + myBooks[i].releaseDate + '</li>');
-       $books.append('<li>' + '<img src=' + myBooks[i].image + '>' + '</li>');
+       $(books).append('<li>' + myBooks[i].title + '</li>');
+       $(books).append('<li>' + myBooks[i].author + '</li>');
+       $(books).append('<li>' + myBooks[i].releaseDate + '</li>');
+       $(books).append('<li>' + '<img src=' + myBooks[i].image + '>' + '</li>');
        
    }
 
 });
+
+
+$('#new-book').on('submit', function (event) {
+
+  event.preventDefault();
+  
+  var title = $('input#book-title').val();
+
+  var author = $('input#book-author').val();
+
+  var image = $('input#book-image').val();
+
+  var release = $('input#book-release-date').val();
+
+  $.ajax ({
+  type: 'POST',
+  url: "https://den-super-crud.herokuapp.com/books",
+  dataType: 'JSON',
+  data: {'title': title, 'author': author, 'image': image, 'release': release},
+  
+  });
+  getBooks();
+  $('input#book-title').val('');
+  $('input#book-author').val('');
+  $('input#book-image').val('');
+  $('input#book-release-date').val('');
+});
+}
 
 
 // Code Workouts and ideas!
@@ -47,10 +70,10 @@ $.get("https://den-super-crud.herokuapp.com/books").done(function(data) {
 //          success: function(books) {
 //               $.each(books, function(i, book) {
 //                    $books.append('<li>my book</li>');
-// 					  $books.append('<li>' + book[i].title + '</li>');
-// 					  $books.append('<li>' + book[i].author + '</li>');
-// 					  $books.append('<li>' + book[i].releaseDate + '</li>');
-// 					  $books.append('<li>' + '<img src=' + book[i].image + '>' + '</li>');
+//            $books.append('<li>' + book[i].title + '</li>');
+//            $books.append('<li>' + book[i].author + '</li>');
+//            $books.append('<li>' + book[i].releaseDate + '</li>');
+//            $books.append('<li>' + '<img src=' + book[i].image + '>' + '</li>');
 //            });
 //           }
 
@@ -60,54 +83,42 @@ $.get("https://den-super-crud.herokuapp.com/books").done(function(data) {
 
 // $(function () {
 
-// 	var $books = $('#books');
+//  var $books = $('#books');
 
-// 	var $title = $('#book-title');
+//  var $title = $('#book-title');
 
-// 	var $author = $('#book-author');
+//  var $author = $('#book-author');
 
-// 	var $image = $('#book-image');
+//  var $image = $('#book-image');
 
-// 	var $release = $('#book-release-date');
+//  var $release = $('#book-release-date');
 
-// 	$.ajax ({
+//  $.ajax ({
 //          type: 'GET',
 //          url: "https://den-super-crud.herokuapp.com/books/",
 //          success: function(books) {
 //               $.each(books, function(i, book) {
 //                    // $books.append('<li>my book</li>');
-// 					  $books.append('<li>' + book[i].title + '</li>');
-// 					  $books.append('<li>' + book[i].author + '</li>');
-// 					  $books.append('<li>' + book[i].releaseDate + '</li>');
-// 					  $books.append('<li>' + '<img src=' + book[i].image + '>' + '</li>');
+//            $books.append('<li>' + book[i].title + '</li>');
+//            $books.append('<li>' + book[i].author + '</li>');
+//            $books.append('<li>' + book[i].releaseDate + '</li>');
+//            $books.append('<li>' + '<img src=' + book[i].image + '>' + '</li>');
 //            });
 //           }
 
 //      });
 
 // });
-// $(':submit').on('click', function () {
 
-// 	var newBook = {
 
 		
 
-// 	};
 
 
-// $.ajax ({
-// 	type: 'POST',
-// 	url: "https://den-super-crud.herokuapp.com/books",
-// 	data: newBook,
-// 	success: function (makeBook) {
-// 	   $books.append('<li>' + myBooks[i].title + '</li>');
-//        $books.append('<li>' + myBooks[i].author + '</li>');
-//        $books.append('<li>' + myBooks[i].releaseDate + '</li>');
-//        $books.append('<li>' + '<img src=' + myBooks[i].image + '>' + '</li>');
-// 		}
-//    });
 
-// });
+
+	
+	
 
 
 
